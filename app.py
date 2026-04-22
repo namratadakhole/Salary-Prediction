@@ -16,7 +16,7 @@ encoders = pickle.load(open("encoders.pkl", "rb"))
 st.markdown("""
 <style>
 body {
-    background-color: #f8fafc;
+    background-color: #B3CFE5;
 }
 
 .main {
