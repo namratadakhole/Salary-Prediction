@@ -19,10 +19,17 @@ model = models[model_name]
 age = st.number_input("Age", min_value=18, max_value=65, value=25)
 experience = st.number_input("Years of Experience", min_value=0.0, max_value=40.0, value=1.0)
 
-# Dropdowns using encoder classes
-gender = st.selectbox("Gender", encoders["Gender"].classes_)
-education = st.selectbox("Education Level", encoders["Education Level"].classes_)
-job = st.selectbox("Job Title", encoders["Job Title"].classes_)
+# Get actual keys from encoders
+keys = list(encoders.keys())
+
+# Assign dynamically
+gender_key = keys[0]
+education_key = keys[1]
+job_key = keys[2]
+
+gender = st.selectbox("Gender", encoders[gender_key].classes_)
+education = st.selectbox("Education Level", encoders[education_key].classes_)
+job = st.selectbox("Job Title", encoders[job_key].classes_)
 
 # Prediction
 if st.button("Predict Salary"):
