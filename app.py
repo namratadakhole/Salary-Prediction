@@ -16,59 +16,53 @@ encoders = pickle.load(open("encoders.pkl", "rb"))
 st.markdown("""
 <style>
 body {
-    background: linear-gradient(120deg, #eef2ff, #f8fafc);
+    background-color: #f8fafc;
+}
+
+.main {
+    background-color: #f8fafc;
 }
 
 .block-container {
     padding-top: 2rem;
+    padding-bottom: 2rem;
 }
 
 .header {
-    font-size: 34px;
+    font-size: 32px;
     font-weight: 600;
     text-align: center;
-    color: #1e3a8a;
     margin-bottom: 5px;
 }
 
 .subtext {
     text-align: center;
-    color: #475569;
-    margin-bottom: 25px;
+    color: #6b7280;
+    margin-bottom: 30px;
 }
 
 .section {
     background: white;
     padding: 25px;
-    border-radius: 12px;
-    box-shadow: 0px 4px 12px rgba(0,0,0,0.06);
+    border-radius: 10px;
+    box-shadow: 0px 2px 10px rgba(0,0,0,0.05);
     margin-bottom: 20px;
 }
 
-.section-title {
-    font-size: 18px;
-    font-weight: 600;
-    color: #1e3a8a;
-    margin-bottom: 10px;
-}
-
 .result {
-    background: linear-gradient(120deg, #2563eb, #1e40af);
-    padding: 25px;
-    border-radius: 12px;
+    background: #f1f5f9;
+    padding: 20px;
+    border-radius: 10px;
     text-align: center;
-    color: white;
-    margin-top: 15px;
 }
 
 .stButton>button {
     width: 100%;
     height: 45px;
     border-radius: 8px;
-    background-color: #2563eb;
+    background-color: #1d4ed8;
     color: white;
     font-weight: 500;
-    border: none;
 }
 </style>
 """, unsafe_allow_html=True)
@@ -80,7 +74,6 @@ st.markdown("<div class='subtext'>Predict salary using machine learning models</
 # ---------- MODEL SELECTION ----------
 with st.container():
     st.markdown("<div class='section'>", unsafe_allow_html=True)
-    st.markdown("<div class='section-title'>Model Selection</div>", unsafe_allow_html=True)
 
     model_name = st.selectbox("Select Model", list(models.keys()))
     model = models[model_name]
@@ -90,7 +83,6 @@ with st.container():
 # ---------- INPUT FORM ----------
 with st.form("prediction_form"):
     st.markdown("<div class='section'>", unsafe_allow_html=True)
-    st.markdown("<div class='section-title'>Enter Details</div>", unsafe_allow_html=True)
 
     col1, col2 = st.columns(2)
 
@@ -122,7 +114,7 @@ if submitted:
 
         st.markdown("<div class='result'>", unsafe_allow_html=True)
         st.markdown("<h3>Predicted Salary</h3>", unsafe_allow_html=True)
-        st.markdown(f"<h1>{prediction:,.2f}</h1>", unsafe_allow_html=True)
+        st.markdown(f"<h2>{prediction:,.2f}</h2>", unsafe_allow_html=True)
         st.markdown("</div>", unsafe_allow_html=True)
 
     except Exception as e:
@@ -130,6 +122,6 @@ if submitted:
 
 # ---------- FOOTER ----------
 st.markdown(
-    "<p style='text-align:center; color:#64748b; margin-top:40px;'>Machine Learning Application using Streamlit</p>",
+    "<p style='text-align:center; color:#9ca3af; margin-top:40px;'>Machine Learning Application using Streamlit</p>",
     unsafe_allow_html=True
 )
