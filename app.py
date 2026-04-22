@@ -2,10 +2,13 @@ import streamlit as st
 import pickle
 import pandas as pd
 
-# Page config
-st.set_page_config(page_title="Salary Predictor", layout="wide")
+# ---------- PAGE CONFIG ----------
+st.set_page_config(
+    page_title="Salary Prediction System",
+    layout="centered"
+)
 
-# Load model & encoders
+# ---------- LOAD FILES ----------
 models = pickle.load(open("models.pkl", "rb"))
 encoders = pickle.load(open("encoders.pkl", "rb"))
 
@@ -13,86 +16,92 @@ encoders = pickle.load(open("encoders.pkl", "rb"))
 st.markdown("""
 <style>
 body {
-    background-color: #0f172a;
-    color: white;
-}
-.main {
-    background-color: #0f172a;
+    background-color: #f8fafc;
 }
 
-.title {
-    text-align: center;
-    font-size: 40px;
+.main {
+    background-color: #f8fafc;
+}
+
+.block-container {
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+}
+
+.header {
+    font-size: 32px;
     font-weight: 600;
+    text-align: center;
     margin-bottom: 5px;
 }
 
-.subtitle {
+.subtext {
     text-align: center;
-    font-size: 16px;
-    color: #94a3b8;
+    color: #6b7280;
     margin-bottom: 30px;
 }
 
-.card {
-    background: #1e293b;
-    padding: 20px;
-    border-radius: 12px;
+.section {
+    background: white;
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: 0px 2px 10px rgba(0,0,0,0.05);
     margin-bottom: 20px;
 }
 
-.stButton>button {
-    background-color: #2563eb;
-    color: white;
-    border-radius: 8px;
-    height: 3em;
-    width: 100%;
-    font-size: 16px;
+.result {
+    background: #f1f5f9;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
 }
 
-.result-box {
-    text-align: center;
-    padding: 20px;
-    background: #1e293b;
-    border-radius: 12px;
-    margin-top: 20px;
+.stButton>button {
+    width: 100%;
+    height: 45px;
+    border-radius: 8px;
+    background-color: #1d4ed8;
+    color: white;
+    font-weight: 500;
 }
 </style>
 """, unsafe_allow_html=True)
 
 # ---------- HEADER ----------
-st.markdown("<div class='title'>Salary Prediction</div>", unsafe_allow_html=True)
-st.markdown("<div class='subtitle'>Predict salary based on professional details</div>", unsafe_allow_html=True)
+st.markdown("<div class='header'>Salary Prediction System</div>", unsafe_allow_html=True)
+st.markdown("<div class='subtext'>Predict salary using machine learning models</div>", unsafe_allow_html=True)
 
-# ---------- SIDEBAR ----------
-st.sidebar.title("Model Selection")
-model_name = st.sidebar.selectbox("Choose Model", list(models.keys()))
-model = models[model_name]
+# ---------- MODEL SELECTION ----------
+with st.container():
+    st.markdown("<div class='section'>", unsafe_allow_html=True)
 
-st.sidebar.write("Selected Model:")
-st.sidebar.write(model_name)
+    model_name = st.selectbox("Select Model", list(models.keys()))
+    model = models[model_name]
 
-# ---------- INPUT SECTION ----------
-col1, col2 = st.columns(2)
-
-with col1:
-    st.markdown("<div class='card'>", unsafe_allow_html=True)
-    age = st.slider("Age", 18, 65, 25)
-    gender = st.selectbox("Gender", encoders["Gender"].classes_)
     st.markdown("</div>", unsafe_allow_html=True)
 
-with col2:
-    st.markdown("<div class='card'>", unsafe_allow_html=True)
-    experience = st.slider("Years of Experience", 0.0, 40.0, 1.0)
-    education = st.selectbox("Education Level", encoders["Education Level"].classes_)
-    st.markdown("</div>", unsafe_allow_html=True)
+# ---------- INPUT FORM ----------
+with st.form("prediction_form"):
+    st.markdown("<div class='section'>", unsafe_allow_html=True)
 
-st.markdown("<div class='card'>", unsafe_allow_html=True)
-job = st.selectbox("Job Title", encoders["Job Title"].classes_)
-st.markdown("</div>", unsafe_allow_html=True)
+    col1, col2 = st.columns(2)
+
+    with col1:
+        age = st.number_input("Age", 18, 65, 25)
+        gender = st.selectbox("Gender", encoders["Gender"].classes_)
+
+    with col2:
+        experience = st.number_input("Years of Experience", 0.0, 40.0, 1.0)
+        education = st.selectbox("Education Level", encoders["Education Level"].classes_)
+
+    job = st.selectbox("Job Title", encoders["Job Title"].classes_)
+
+    submitted = st.form_submit_button("Predict Salary")
+
+    st.markdown("</div>", unsafe_allow_html=True)
 
 # ---------- PREDICTION ----------
-if st.button("Predict Salary"):
+if submitted:
     try:
         gender_enc = encoders["Gender"].transform([gender])[0]
         education_enc = encoders["Education Level"].transform([education])[0]
@@ -103,13 +112,16 @@ if st.button("Predict Salary"):
 
         prediction = model.predict(input_data)[0]
 
-        st.markdown("<div class='result-box'>", unsafe_allow_html=True)
-        st.markdown(f"<h2>Predicted Salary</h2>", unsafe_allow_html=True)
-        st.markdown(f"<h1>{prediction:,.2f}</h1>", unsafe_allow_html=True)
+        st.markdown("<div class='result'>", unsafe_allow_html=True)
+        st.markdown("<h3>Predicted Salary</h3>", unsafe_allow_html=True)
+        st.markdown(f"<h2>{prediction:,.2f}</h2>", unsafe_allow_html=True)
         st.markdown("</div>", unsafe_allow_html=True)
 
     except Exception as e:
         st.error(f"Error: {e}")
 
 # ---------- FOOTER ----------
-st.markdown("<p style='text-align:center; color:#94a3b8; margin-top:40px;'>Machine Learning Application using Streamlit</p>", unsafe_allow_html=True)
+st.markdown(
+    "<p style='text-align:center; color:#9ca3af; margin-top:40px;'>Machine Learning Application using Streamlit</p>",
+    unsafe_allow_html=True
+)
