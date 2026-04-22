@@ -15,14 +15,18 @@ encoders = pickle.load(open("encoders.pkl", "rb"))
 # ---------- CUSTOM CSS ----------
 st.markdown("""
 <style>
-body {
+
+/* Background */
+.stApp {
     background: linear-gradient(120deg, #eef2ff, #f8fafc);
 }
 
+/* Layout spacing */
 .block-container {
     padding-top: 2rem;
 }
 
+/* Header */
 .header {
     font-size: 34px;
     font-weight: 600;
@@ -37,14 +41,22 @@ body {
     margin-bottom: 25px;
 }
 
+/* Cards */
 .section {
     background: white;
     padding: 25px;
     border-radius: 12px;
     box-shadow: 0px 4px 12px rgba(0,0,0,0.06);
     margin-bottom: 20px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
+.section:hover {
+    transform: translateY(-3px);
+    box-shadow: 0px 6px 18px rgba(0,0,0,0.08);
+}
+
+/* Section title */
 .section-title {
     font-size: 18px;
     font-weight: 600;
@@ -52,6 +64,7 @@ body {
     margin-bottom: 10px;
 }
 
+/* Result box */
 .result {
     background: linear-gradient(120deg, #2563eb, #1e40af);
     padding: 25px;
@@ -61,15 +74,36 @@ body {
     margin-top: 15px;
 }
 
-.stButton>button {
+/* BUTTON STYLE */
+.stButton > button {
     width: 100%;
     height: 45px;
     border-radius: 8px;
-    background-color: #2563eb;
+    background: linear-gradient(120deg, #2563eb, #1e40af);
     color: white;
     font-weight: 500;
     border: none;
+    transition: all 0.25s ease;
 }
+
+/* Hover effect */
+.stButton > button:hover {
+    background: linear-gradient(120deg, #1e40af, #1e3a8a);
+    transform: translateY(-2px);
+    box-shadow: 0px 6px 15px rgba(37, 99, 235, 0.3);
+}
+
+/* Click effect */
+.stButton > button:active {
+    transform: scale(0.98);
+}
+
+/* Remove ugly outline */
+.stButton > button:focus {
+    outline: none;
+    box-shadow: none;
+}
+
 </style>
 """, unsafe_allow_html=True)
 
