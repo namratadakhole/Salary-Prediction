@@ -1,11 +1,11 @@
 import streamlit as st
 import pickle
 import pandas as pd
-st.write(encoders.keys())
 
 # Load models and encoders
 models = pickle.load(open("models.pkl", "rb"))
 encoders = pickle.load(open("encoders.pkl", "rb"))
+st.write(encoders.keys())
 
 st.title("Salary Prediction App")
 
