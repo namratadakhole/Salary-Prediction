@@ -3,14 +3,14 @@ import pickle
 import pandas as pd
 
 # Page config
-st.set_page_config(page_title="Salary Predictor", page_icon="💼", layout="centered")
+st.set_page_config(page_title="Salary Predictor", layout="centered")
 
 # Load files
 models = pickle.load(open("models.pkl", "rb"))
 encoders = pickle.load(open("encoders.pkl", "rb"))
 
 # Header
-st.markdown("<h1 style='text-align: center; color: #4CAF50;'>💼 Salary Prediction App</h1>", unsafe_allow_html=True)
+st.markdown("<h1 style='text-align: center; color: #4CAF50;'>Salary Prediction App</h1>", unsafe_allow_html=True)
 st.markdown("<p style='text-align: center;'>Predict salary based on your profile</p>", unsafe_allow_html=True)
 
 # Sidebar
@@ -39,7 +39,7 @@ job = st.selectbox("Job Title", encoders["Job Title"].classes_)
 st.write("")
 
 # Predict button (centered)
-predict_btn = st.button("🚀 Predict Salary")
+predict_btn = st.button("Predict Salary")
 
 if predict_btn:
     try:
@@ -54,7 +54,7 @@ if predict_btn:
 
         prediction = model.predict(input_data)[0]
 
-        st.markdown("### 💰 Predicted Salary")
+        st.markdown("Predicted Salary")
         st.success(f"₹ {prediction:,.2f}")
 
     except Exception as e:
